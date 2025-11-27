@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Joyeux Anniversaire</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background: #fce4ec;
+      font-family: 'Arial', sans-serif;
+    }
+    #title {
+      font-size: 50px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+    .letter {
+      display: inline-block;
+      margin: 0 2px;
+      font-size: 60px;
+      font-weight: bold;
+    }
+    #message {
+      display: none;
+      margin-top: 20px;
+      font-size: 24px;
+      padding: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    #surpriseBtn {
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background: #d81b60;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #surpriseBtn:hover {
+      background: #ad1457;
+    }
+  </style>
+</head>
+<body>
+  <div id="title"></div>
+  <button id="surpriseBtn">Surprise 🎁</button>
+  <div id="message">
+    Amour, je sais que notre relation n'est pas parfaite et qu'il y a plein d'incertitudes,
+    mais que ça marche ou pas, sache que je t'aime énormément ❤️
+  </div>
+
+  <script>
+    const titleText = "JOYEUX ANNIVERSAIRE";
+    const colors = ["red", "blue", "green", "orange", "purple", "pink", "gold", "teal"];
+    const titleDiv = document.getElementById("title");
+
+    titleText.split("").forEach((char, i) => {
+      const span = document.createElement("span");
+      span.classList.add("letter");
+      span.textContent = char;
+      span.style.color = colors[i % colors.length];
+      titleDiv.appendChild(span);
+    });
+
+    document.getElementById("surpriseBtn").addEventListener("click", function() {
+      document.getElementById("message").style.display = "block";
+      launchConfetti();
+    });
+
+    function launchConfetti() {
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0, 1), y: Math.random() - 0.2 }
+        }));
+      }, 250);
+    }
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</body>
+</html>
